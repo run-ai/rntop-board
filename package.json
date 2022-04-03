@@ -2,9 +2,10 @@
   "name": "rntop-board",
   "version": "0.1.0",
   "description": "Web application for visualizing extracted by rntop",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "webpack serve --static ./dist --mode development"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/run-ai/rntop-board/issues"
   },
-  "homepage": "https://github.com/run-ai/rntop-board#readme"
+  "homepage": "https://github.com/run-ai/rntop-board#readme",
+  "devDependencies": {
+    "webpack": "^5.71.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
