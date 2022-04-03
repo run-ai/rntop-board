@@ -1,0 +1,19 @@
+{
+  "name": "rntop-board",
+  "version": "0.1.0",
+  "description": "Web application for visualizing extracted by rntop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/run-ai/rntop-board.git"
+  },
+  "author": "levosos",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/run-ai/rntop-board/issues"
+  },
+  "homepage": "https://github.com/run-ai/rntop-board#readme"
+}
