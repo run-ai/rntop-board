@@ -1,4 +1,5 @@
 import React from 'react';
+import './Upload.css';
 
 class Upload extends React.Component {
   onChange = e => {
