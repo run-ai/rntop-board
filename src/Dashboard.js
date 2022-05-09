@@ -79,7 +79,7 @@ class Dashboard extends React.Component {
     this.state = { data: null }
   }
 
-  componentDidMount() {
+  loadData() {
     // convert csv to json
     const papa = Papa.parse(this.props.text, { header: true, dynamicTyping: true, skipEmptyLines: true });
 
@@ -139,12 +139,22 @@ class Dashboard extends React.Component {
     this.setState({ data: { datasets: datasets } });
   }
 
+  componentDidMount() {
+    // TODO(raz): this should be probably done in we web worker
+    setTimeout(() => this.loadData(), 1)
+  }
+
   render() {
     if (this.state.data) {
       return <Line options={options} data={this.state.data} />
     }
 
-    return <h1>Loading...</h1>
+    return (
+      <div>
+        <h1>Loading...</h1>
+        <p>This could take a while.</p>
+      </div>
+    )
   }
 }
 
