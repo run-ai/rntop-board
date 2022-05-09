@@ -41,9 +41,9 @@ export const options = {
         unit: 'hour',
           displayFormats: {
             hour: 'MM-DD-YYYY HH:mm',
-        }
-      },
-      title: {
+          }
+        },
+    title: {
         display: true,
         text: 'Time'
       },
@@ -59,6 +59,19 @@ export const options = {
   },
 };
 
+function startTime(record, hours) {
+  // parse the record timestamp
+  let time = moment(record.timestamp, 'YYYY/MM/DD HH:mm:ss.SSS');
+
+  // round to the last hour
+  time = time.startOf('hour')
+
+  // round to the last _hours_ hours
+  time = time.hours(Math.floor(time.hours() / hours) * hours)
+
+  // and we're done
+  return time;
+}
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -85,14 +98,14 @@ class Dashboard extends React.Component {
     // keep the whole cluster data as well
     records_per_node['cluster'] = data;
 
-    // calculate the mean utilization per hour per node
-    const mean_utilization_per_hour_per_node =
+    // calculate the mean utilization per node per x hours
+    const mean_utilization_per_node_per_x_hours =
       _.fromPairs(
       _.map(records_per_node, (records, node) => {
-        const records_per_hour = _.groupBy(records, record => moment(record.timestamp, 'YYYY/MM/DD HH:mm:ss.SSS').startOf('hour'));
-        const mean_utilization_per_hour = _.fromPairs(_.map(records_per_hour, (records, start) => [start, _.meanBy(records, record => record.utilization)]))
+        const records_per_x_hours = _.groupBy(records, record => startTime(record, 4));
+        const mean_utilization_per_x_hours = _.fromPairs(_.map(records_per_x_hours, (records, start) => [start, _.meanBy(records, record => record.utilization)]))
 
-        return [node, mean_utilization_per_hour];
+        return [node, mean_utilization_per_x_hours];
       }));
 
     const options = function(node) {
@@ -110,10 +123,10 @@ class Dashboard extends React.Component {
       }
     }
 
-    const datasets = _.map(mean_utilization_per_hour_per_node, (mean_utilization_per_hour, node) => {
+    const datasets = _.map(mean_utilization_per_node_per_x_hours, (mean_utilization_per_x_hours, node) => {
         return {
           label: node,
-          data: _.map(mean_utilization_per_hour, (mean_utilization, hour) => {
+          data: _.map(mean_utilization_per_x_hours, (mean_utilization, hour) => {
             return {
               x: hour,
               y: mean_utilization,
