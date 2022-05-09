@@ -12,6 +12,7 @@ parser.add_argument('-o', '--output', { default: 'rntop.log', help: 'Output file
 parser.add_argument('--interval', { type: 'int', default: 30, help: 'Interval in seconds between cluster samples' });
 parser.add_argument('--hours', { type: 'int', default: 24 * 5, help: 'Duration of log in hours' });
 parser.add_argument('--nodes', { type: 'int', default: 5, help: 'Number of nodes in the cluster' });
+parser.add_argument('-r', '--randomness', { type: 'int', default: 10, help: 'Number of intervals to slightly change the mean node utilization' });
 
 const args = parser.parse_args();
 
@@ -30,6 +31,7 @@ output.write('timestamp,node,index,utilization,memory_used,memory_total\n')
 let time = new Date();
 time.setHours(time.getHours() - args.hours)
 
+let counter = 0
 while (time <= new Date()) {
     const timestamp = time.toISOString()
 
@@ -41,7 +43,12 @@ while (time <= new Date()) {
 
             output.write(timestamp + ',' + node.name + ',' + device.toString() + ',' + utilization.toString() + ',' + memory_used.toString() + ',' + memory_total.toString() + '\n')
         }
+
+        if (counter % args.randomness == 0) {
+            node.utilization = Math.max(Math.min(node.utilization + _.random(-1, 1), 100), 0)
+        }
     }
 
     time.setSeconds(time.getSeconds() + args.interval)
+    counter++
 }
