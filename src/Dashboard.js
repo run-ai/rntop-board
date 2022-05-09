@@ -141,7 +141,7 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     // TODO(raz): this should be probably done in we web worker
-    setTimeout(() => this.loadData(), 1)
+    setTimeout(() => this.loadData(), 10)
   }
 
   render() {
