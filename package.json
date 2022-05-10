@@ -27,7 +27,8 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.7.4",
+    "worker-loader": "^3.0.8"
   },
   "dependencies": {
     "chart.js": "^3.7.1",
