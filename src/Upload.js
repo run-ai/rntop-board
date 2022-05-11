@@ -17,8 +17,17 @@ class Upload extends React.Component {
     reader.readAsText(e.target.files[0]);
   };
 
+  onClick() {
+    document.getElementById('file').click()
+  }
+
   render() {
-    return <input type="file" id="upload" onChange={this.onChange} />
+    return (
+      <>
+        <input type="file" id="file" style={{display: "none"}} onChange={this.onChange} />
+        <input type="button" value="Upload" onClick={this.onClick} />
+      </>
+    )
   }
 }
 

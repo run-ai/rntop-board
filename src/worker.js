@@ -60,7 +60,7 @@ function options(node) {
 
 self.onmessage = (e) => {
   // convert the csv to json
-  const data = convertCSVtoJSON(e.data)
+  const data = convertCSVtoJSON(e.data.text)
 
   // group entries by node
   const records_per_node = _.groupBy(data, record => record.node);
@@ -69,7 +69,7 @@ self.onmessage = (e) => {
   records_per_node['cluster'] = data;
 
   // calculate the mean utilization per node per x hours
-  const records_per_node_per_x_hours = recordsPerNodePerXHours(records_per_node, 4);
+  const records_per_node_per_x_hours = recordsPerNodePerXHours(records_per_node, e.data.configuration.hours);
   const mean_utilization_per_node_per_x_hours = meanUtilizationPerNodePerXHours(records_per_node_per_x_hours);
 
   const datasets = _.map(mean_utilization_per_node_per_x_hours, (mean_utilization_per_x_hours, node) => {

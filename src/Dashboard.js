@@ -68,7 +68,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.worker.postMessage(this.props.text);
+    this.worker.postMessage({ text: this.props.text, configuration: this.props.configuration });
   }
 
   render() {
@@ -79,7 +79,7 @@ class Dashboard extends React.Component {
     return (
       <div>
         <h1>Loading...</h1>
-        <p>This could take a while.</p>
+        <p>This could take up to a few minutes.</p>
       </div>
     )
   }

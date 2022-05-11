@@ -7,17 +7,17 @@ import Dashboard from './Dashboard';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: null };
+    this.state = { uploaded: false, text: null, configuration: null };
   }
 
-  onRead = (text) => {
-    this.setState({ text: text })
+  onUpload = ({ text, configuration }) => {
+    this.setState({ uploaded: true, text: text, configuration: configuration })
   }
 
   render() {
     return (
       <div style={{ textAlign: 'center' }}>
-        {!this.state.text ? <Welcome onRead={this.onRead} /> : <Dashboard text={this.state.text} />}
+        {!this.state.uploaded ? <Welcome onUpload={this.onUpload} /> : <Dashboard text={this.state.text} configuration={this.state.configuration} />}
       </div>
     )
   }
