@@ -85,5 +85,7 @@ self.onmessage = (e) => {
     }
   });
 
-  self.postMessage(datasets);
+  const info = { utilization: _.meanBy(data, record => record.utilization) }
+
+  self.postMessage({ datasets, info });
 }

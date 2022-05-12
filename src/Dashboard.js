@@ -57,13 +57,13 @@ const options = {
 class Dashboard extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { data: null }
+    this.state = { data: null, info: null }
     this.worker = new Worker(new URL('./worker.js', import.meta.url));
     this.worker.onerror = (err) => {
       console.error(err);
     }
     this.worker.onmessage = (answer) => {
-      this.setState({ data: { datasets: answer.data } })
+      this.setState({ data: { datasets: answer.data.datasets }, info: answer.data.info })
     }
   }
 
@@ -73,7 +73,12 @@ class Dashboard extends React.Component {
 
   render() {
     if (this.state.data) {
-      return <Line options={options} data={this.state.data} />
+      return (
+        <div>
+          <h2>Cluster utilization: {this.state.info.utilization.toFixed(2)}%</h2>
+          <Line options={options} data={this.state.data} />
+        </div>
+      )
     }
 
     return (
